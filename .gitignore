@@ -1,0 +1,43 @@
+# C++编译产物
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Qt特有
+*.user
+*.user.*
+*.qmlc
+*.jsc
+*.autosave
+*.pro.user*
+ui_*.h
+moc_*.cpp
+qrc_*.cpp
+Makefile*
+build-*
+debug/
+release/
+Debug/
+Release/
+
+# IDE文件
+.vscode/
+.idea/
+*.swp
+*~
+
+# 数据库文件（可选，如果不希望上传测试数据）
+medical.db
+
+# 备份文件
+*.bak
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
