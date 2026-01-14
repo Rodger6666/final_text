@@ -145,6 +145,44 @@
          </layout>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_DrugActions">
+          <item>
+           <widget class="QPushButton" name="btnAddDrug">
+            <property name="text">
+             <string>添加药品</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnDelDrug">
+            <property name="text">
+             <string>删除药品</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnSubmitDrug">
+            <property name="text">
+             <string>保存修改</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_Drug">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QTableView" name="drugView"/>
         </item>
        </layout>
@@ -155,11 +193,49 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QPushButton" name="btnAddAppointment">
-          <property name="text">
-           <string>新建预约</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_ApptActions">
+          <item>
+           <widget class="QPushButton" name="btnAddAppointment">
+            <property name="text">
+             <string>新建预约</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnDelAppointment">
+            <property name="text">
+             <string>删除预约</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnSubmitAppointment">
+            <property name="text">
+             <string>保存修改</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnRevertAppointment">
+            <property name="text">
+             <string>撤销修改</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_Appt">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QTableView" name="appointmentView"/>

@@ -69,6 +69,22 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     // Drugs
+    connect(ui->btnAddDrug, &QPushButton::clicked, [this](){
+        m_drugModel->insertRow(m_drugModel->rowCount());
+    });
+    connect(ui->btnDelDrug, &QPushButton::clicked, [this](){
+        QModelIndexList selection = ui->drugView->selectionModel()->selectedRows();
+        for(int i=0; i< selection.count(); i++) {
+            m_drugModel->removeRow(selection.at(i).row());
+        }
+    });
+    connect(ui->btnSubmitDrug, &QPushButton::clicked, [this](){
+        if(m_drugModel->submitAll()) {
+             QMessageBox::information(this, "成功", "药品信息已保存");
+        } else {
+             QMessageBox::warning(this, "失败", "保存药品失败: " + m_drugModel->lastError().text());
+        }
+    });
     connect(ui->searchDrugEdit, &QLineEdit::textChanged, [this](const QString &text){
         m_drugModel->setFilter(QString("name LIKE '%%1%'").arg(text));
     });
@@ -77,6 +93,20 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnAddAppointment, &QPushButton::clicked, [this](){
         m_appointmentModel->insertRow(m_appointmentModel->rowCount());
     });
+    connect(ui->btnDelAppointment, &QPushButton::clicked, [this](){
+        QModelIndexList selection = ui->appointmentView->selectionModel()->selectedRows();
+        for(int i=0; i< selection.count(); i++) {
+            m_appointmentModel->removeRow(selection.at(i).row());
+        }
+    });
+    connect(ui->btnSubmitAppointment, &QPushButton::clicked, [this](){
+        if(m_appointmentModel->submitAll()) {
+             QMessageBox::information(this, "成功", "预约信息已保存");
+        } else {
+             QMessageBox::warning(this, "失败", "保存预约失败: " + m_appointmentModel->lastError().text());
+        }
+    });
+    connect(ui->btnRevertAppointment, &QPushButton::clicked, m_appointmentModel, &QSqlTableModel::revertAll);
 
     // Records
     connect(ui->btnAddRecord, &QPushButton::clicked, [this](){
@@ -158,7 +188,7 @@ void MainWindow::setupModels()
     // Drugs
     m_drugModel = new QSqlTableModel(this);
     m_drugModel->setTable("drugs");
-    m_drugModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+    m_drugModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     m_drugModel->select();
     m_drugModel->setHeaderData(1, Qt::Horizontal, "药品名");
     m_drugModel->setHeaderData(2, Qt::Horizontal, "库存");
@@ -167,11 +197,13 @@ void MainWindow::setupModels()
     // Appointments
     m_appointmentModel = new QSqlRelationalTableModel(this);
     m_appointmentModel->setTable("appointments");
-    m_appointmentModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+    m_appointmentModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     // Join with patients and doctors
     m_appointmentModel->setRelation(1, QSqlRelation("patients", "id", "name"));
     m_appointmentModel->setRelation(2, QSqlRelation("doctors", "id", "name"));
-    m_appointmentModel->select();
+    if (!m_appointmentModel->select()) {
+        qDebug() << "Appointment Model Select Error:" << m_appointmentModel->lastError();
+    }
     m_appointmentModel->setHeaderData(1, Qt::Horizontal, "病人");
     m_appointmentModel->setHeaderData(2, Qt::Horizontal, "医生");
     m_appointmentModel->setHeaderData(3, Qt::Horizontal, "预约时间");
@@ -179,10 +211,12 @@ void MainWindow::setupModels()
     // Records
     m_recordModel = new QSqlRelationalTableModel(this);
     m_recordModel->setTable("records");
-    m_recordModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+    m_recordModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     m_recordModel->setRelation(1, QSqlRelation("patients", "id", "name"));
     m_recordModel->setRelation(2, QSqlRelation("doctors", "id", "name"));
-    m_recordModel->select();
+    if (!m_recordModel->select()) {
+        qDebug() << "Record Model Select Error:" << m_recordModel->lastError();
+    }
     m_recordModel->setHeaderData(1, Qt::Horizontal, "病人");
     m_recordModel->setHeaderData(2, Qt::Horizontal, "医生");
     m_recordModel->setHeaderData(3, Qt::Horizontal, "诊断结果");
