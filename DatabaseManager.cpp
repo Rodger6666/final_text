@@ -98,4 +98,3 @@ void DatabaseManager::initTables()
         query.exec("INSERT INTO drugs (name, stock, price) VALUES ('布洛芬', 5, 30.0)"); // Low stock example
     }
 }
-//
