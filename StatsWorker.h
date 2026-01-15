@@ -21,4 +21,3 @@ signals:
 };
 
 #endif // STATSWORKER_H
-//
