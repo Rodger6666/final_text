@@ -264,3 +264,4 @@ void MainWindow::updateSyncStatus(QString status)
 {
     ui->lblSyncStatus->setText(status + " [" + QTime::currentTime().toString() + "]");
 }
+//
